@@ -1,0 +1,10 @@
+{
+	"extends": "@mckayla/tsconfig",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"^/*": ["./src/*"]
+		}
+	},
+	"include": ["./nova.d.ts", "./src/**/*"]
+}

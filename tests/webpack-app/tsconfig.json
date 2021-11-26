@@ -1,0 +1,7 @@
+{
+	"extends": "@mckayla/tsconfig",
+	"compilerOptions": {
+		"jsx": "react"
+	},
+	"include": ["./src/**/*"]
+}

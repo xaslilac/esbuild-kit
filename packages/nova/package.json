@@ -1,0 +1,33 @@
+{
+	"name": "nova",
+	"type": "module",
+	"exports": {
+		"./@types/global": {
+			"types": "./@types/global.d.ts"
+		}
+	},
+	"bin": {
+		"nova": "./target/nova.js",
+		"nova-storybook": "./target/nova-storybook.js"
+	},
+	"dependencies": {
+		"esbuild": "^0.13.15",
+		"sass": "^1.43.4",
+		"succulent": "^0.12.0"
+	},
+	"devDependencies": {
+		"@types/jest": "^27.0.3",
+		"@types/node": "^16.11.10",
+		"@types/sass": "^1.43.1",
+		"jest": "^27.3.1",
+		"postcss": "^8.4.3",
+		"postcss-modules": "^4.2.2",
+		"ts-jest": "^27.0.7"
+	},
+	"scripts": {
+		"build": "tsc -p .",
+		"dev": "tsc -p . -w --preserveWatchOutput",
+		"lint": "eslint .",
+		"test": "jest"
+	}
+}

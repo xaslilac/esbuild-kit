@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformCssModules 1`] = `
+"
+	.file__hey___2_E67 {
+		color: red;
+	}
+	"
+`;
+
+exports[`transformCssModules 2`] = `
+Object {
+  "hey": "file__hey___2_E67",
+}
+`;

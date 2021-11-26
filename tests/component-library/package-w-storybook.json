@@ -1,0 +1,42 @@
+{
+	"name": "@nova/ui",
+	"module": "./target/main.js",
+	"types": "./target/main.d.ts",
+	"exports": {
+		".": {
+			"import": "./target/main.js",
+			"types": "./target/main.d.ts"
+		},
+		"./css": {
+			"import": "./target/main.css",
+			"types": "./target/css.d.ts"
+		}
+	},
+	"dependencies": {
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.16.0",
+		"@storybook/addon-actions": "^6.3.12",
+		"@storybook/addon-essentials": "^6.3.12",
+		"@storybook/addon-links": "^6.3.12",
+		"@storybook/builder-webpack5": "^6.3.12",
+		"@storybook/manager-webpack5": "^6.3.12",
+		"@storybook/preset-scss": "^1.0.3",
+		"@storybook/react": "^6.3.12",
+		"@types/react": "^17.0.36",
+		"@types/react-dom": "^17.0.11",
+		"babel-loader": "^8.2.3",
+		"css-loader": "^6.5.1",
+		"nova": "*",
+		"sass-loader": "^12.3.0",
+		"storybook": "^6.3.12",
+		"style-loader": "^3.3.1"
+	},
+	"scripts": {
+		"build": "nova",
+		"storybook": "start-storybook -p 6006",
+		"build-storybook": "build-storybook"
+	}
+}

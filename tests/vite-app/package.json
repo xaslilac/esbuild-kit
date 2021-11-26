@@ -1,0 +1,14 @@
+{
+	"name": "@nova/vite-test",
+	"dependencies": {
+		"@nova/ui": "*"
+	},
+	"devDependencies": {
+		"vite": "^2.6.14",
+		"vite-tsconfig-paths": "^3.3.17"
+	},
+	"scripts": {
+		"build": "vite build",
+		"dev": "vite"
+	}
+}

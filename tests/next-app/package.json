@@ -1,0 +1,16 @@
+{
+	"name": "@nova/next-test",
+	"dependencies": {
+		"@nova/ui": "*",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
+	},
+	"devDependencies": {
+		"next": "^12.0.4",
+		"typescript": "^4.5.2"
+	},
+	"scripts": {
+		"build": "next build",
+		"dev": "next dev"
+	}
+}

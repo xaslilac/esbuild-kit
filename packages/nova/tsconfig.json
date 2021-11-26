@@ -1,0 +1,10 @@
+{
+	"extends": "@mckayla/tsconfig",
+	"compilerOptions": {
+		"lib": ["es2021"],
+		"outDir": "target",
+		"sourceMap": true,
+		"baseUrl": "."
+	},
+	"include": ["./@types/**/*.d.ts", "./src/**/*"]
+}
