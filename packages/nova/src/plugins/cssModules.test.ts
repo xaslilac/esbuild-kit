@@ -10,8 +10,8 @@ xtest("transformCssModules", async () => {
 		}
 	`;
 
-	const result = await transformCssModules(exampleCss);
+	const [css, json] = await transformCssModules(exampleCss);
 
-	expect(result.css).toMatchSnapshot();
-	expect(result.json).toMatchSnapshot();
+	expect(css).toMatchSnapshot();
+	expect(json).toMatchSnapshot();
 });

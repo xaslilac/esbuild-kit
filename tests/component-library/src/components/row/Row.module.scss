@@ -5,7 +5,7 @@
 
 	background-color: red;
 
-	&.hover {
+	&:hover {
 		background-color: pink;
 	}
 }
