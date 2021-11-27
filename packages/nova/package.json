@@ -1,5 +1,7 @@
 {
 	"name": "nova",
+	"version": "0.10.0",
+	"description": "Fast, opinionated build system for UI libraries",
 	"type": "module",
 	"exports": {
 		"./@types/global": {
