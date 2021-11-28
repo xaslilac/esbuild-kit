@@ -1,8 +1,7 @@
 {
 	"extends": "@mckayla/tsconfig",
 	"compilerOptions": {
-		"lib": ["es2021"],
-		"outDir": "target",
+		"outDir": "./target",
 		"sourceMap": true,
 		"baseUrl": "."
 	},

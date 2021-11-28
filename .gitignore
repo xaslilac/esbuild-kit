@@ -1,4 +1,11 @@
+.DS_Store
 .next/
+.env*
+.vscode/
+build/
+dist/
 node_modules/
 target/
-**/*.tsbuildinfo
+*.log
+*.pyc
+*.tsbuildinfo
