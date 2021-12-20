@@ -1,7 +1,15 @@
 {
-	"name": "nova",
+	"name": "nova-build",
 	"version": "0.10.0",
+	"author": "McKayla Washburn <mckayla@hey.com>",
 	"description": "Fast, opinionated build system for UI libraries",
+	"keywords": [
+		"esbuild"
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/aslilac/nova",
+	"repository": "https://github.com/aslilac/nova",
+	"bugs": "https://github.com/aslilac/nova/issues",
 	"type": "module",
 	"exports": {
 		"./@types/global": {
@@ -12,13 +20,16 @@
 		"nova": "./target/nova.js",
 		"nova-storybook": "./target/nova-storybook.js"
 	},
+	"files": [
+		"target/**"
+	],
 	"dependencies": {
-		"@svgr/core": "^6.0.0-alpha.4",
-		"esbuild": "^0.13.15",
+		"@svgr/core": "^6.0.0",
+		"esbuild": "^0.14.6",
 		"sass": "^1.43.4",
 		"postcss": "^8.4.3",
 		"postcss-modules": "^4.2.2",
-		"succulent": "^0.12.0"
+		"succulent": "^0.14.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.0.3",

@@ -7,10 +7,10 @@ import {
 	$anyobject,
 	$array,
 	$boolean,
+	$maybe,
 	$object,
 	$string,
 	Schema,
-	union,
 } from "succulent";
 
 import { run } from "./base/run.js";
@@ -21,13 +21,12 @@ import svgrPlugin from "./plugins/svgr.js";
 
 const configSchema = $object({
 	export: $string,
-	features: union(
+	features: $maybe(
 		$object({
-			svgr: union($boolean, undefined),
+			svgr: $maybe($boolean),
 		}),
-		undefined,
 	),
-	esbuildPlugins: union($array($anyobject), undefined),
+	esbuildPlugins: $maybe($array($anyobject)),
 });
 
 async function findConfig(
@@ -101,13 +100,11 @@ await run("tsc", [
 console.log("[4/4] Preparing...");
 
 await fs.copyFile(
-	// @ts-expect-error - URL isn't in global types
 	new URL("../static/css.d.ts", import.meta.url),
 	path.join(process.cwd(), "./target/css.d.ts"),
 );
 
 await fs.copyFile(
-	// @ts-expect-error - URL isn't in global types
 	new URL("../static/index.js", import.meta.url),
 	path.join(process.cwd(), "./target/index.js"),
 );
