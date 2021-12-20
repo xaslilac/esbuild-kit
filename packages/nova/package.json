@@ -1,6 +1,6 @@
 {
 	"name": "nova-build",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"author": "McKayla Washburn <mckayla@hey.com>",
 	"description": "Fast, opinionated build system for UI libraries",
 	"keywords": [
