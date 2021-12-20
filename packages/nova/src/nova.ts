@@ -41,7 +41,7 @@ await build({
 	plugins: [
 		cssModulesPlugin(),
 		externalsPlugin(),
-		perfPlugin(),
+		watch && perfPlugin(),
 		sassPlugin({ sassOptions: config.features?.sass ?? undefined }),
 		config.features?.svgr && svgrPlugin(),
 		config.esbuildPlugins,
