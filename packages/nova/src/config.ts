@@ -40,11 +40,6 @@ export async function findConfig(
 
 		return config;
 	} catch (cause) {
-		const nextConfigPath = path.join(configPath, "..");
-		if (nextConfigPath !== configPath) {
-			return findConfig(nextConfigPath);
-		}
-
 		// @ts-expect-error - TypeScript doesn't have types for cause yet
 		throw new Error("Failed to resolve config", { cause });
 	}

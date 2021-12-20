@@ -11,17 +11,9 @@ import perfPlugin from "./plugins/perf.js";
 import sassPlugin from "./plugins/sass.js";
 import svgrPlugin from "./plugins/svgr.js";
 
-const start = Date.now();
-
-// console.time("- config");
-console.log("[1/3] Building config...");
+const startTime = Date.now();
 
 const config = await findConfig();
-console.log(config);
-// console.timeEnd("- config");
-
-// console.time("- esbuild");
-console.log("[2/3] Bundling...");
 
 const {
 	export: entryPoint = "./src/main.ts",
@@ -29,13 +21,23 @@ const {
 	outDir = "./target",
 } = config;
 
+const skipTsc = config.features?.tsc === false || process.argv.includes("--noCheck");
+const watch = process.argv.includes("-w");
+
+// Needs to be in place early for type checking
+await fs.copyFile(
+	new URL("../static/nova.d.ts", import.meta.url),
+	path.join(process.cwd(), "./nova.d.ts"),
+);
+
+console.log("Bundling...");
 await build({
 	entryPoints: [entryPoint],
 	bundle: true,
 	format: "esm",
 	jsx: jsx === "react" ? "transform" : "preserve",
 	outdir: outDir,
-	watch: process.argv.includes("-w"),
+	watch,
 	plugins: [
 		cssModulesPlugin(),
 		externalsPlugin(),
@@ -48,28 +50,6 @@ await build({
 		.flat(1) as Plugin[],
 	sourcemap: "external",
 });
-// console.timeEnd("- esbuild");
-
-const skipTsc = config.features?.tsc === false || process.argv.includes("--noCheck");
-
-// console.time("- tsc");
-console.log("[3/3] Checking types...", skipTsc ? "(skipping)" : "");
-
-if (!skipTsc) {
-	await run("tsc", [
-		"-p",
-		".",
-		"--emitDeclarationOnly",
-		"--declarationMap",
-		"--declarationDir",
-		outDir,
-		"--rootDir",
-		"./src",
-	]);
-}
-// console.timeEnd("- tsc");
-
-console.log("[4/4] Preparing...");
 
 await fs.copyFile(
 	new URL("../static/main.css.d.ts", import.meta.url),
@@ -81,7 +61,24 @@ await fs.copyFile(
 	path.join(process.cwd(), outDir, "./index.js"),
 );
 
-await fs.copyFile(
-	new URL("../static/nova.d.ts", import.meta.url),
-	path.join(process.cwd(), "./nova.d.ts"),
-);
+if (!skipTsc) {
+	console.log("Checking types...");
+	run("tsc", [
+		"-p",
+		".",
+		"--emitDeclarationOnly",
+		"--declarationMap",
+		"--declarationDir",
+		outDir,
+		"--rootDir",
+		"./src",
+		watch && ["-w", "--preserveWatchOutput"],
+	]);
+}
+
+const endTime = Date.now();
+const duration = endTime - startTime!;
+
+if (!watch) {
+	console.log(`🌺 Completed in ${(duration / 1000).toFixed(2)}s`);
+}
