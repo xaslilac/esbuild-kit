@@ -1,15 +1,16 @@
 import type { Plugin } from "esbuild";
-import * as fs from "fs/promises";
 import sass from "sass";
 
 import { getPath } from "./util.js";
 
+type SassCompileOptions = sass.Options<"sync">;
+
 export type SassPluginOptions = {
-	sassOptions?: sass.Options<any>;
+	sassOptions?: SassCompileOptions;
 };
 
-function compileSass(source: string, options: sass.Options<any> = {}) {
-	return sass.compileString(source, { ...options }).css;
+function compileSass(path: string, options: SassCompileOptions = {}) {
+	return sass.compile(path, options).css;
 }
 
 export default (options: SassPluginOptions = {}) =>
@@ -23,19 +24,13 @@ export default (options: SassPluginOptions = {}) =>
 				path: getPath(args),
 				namespace: "css-module",
 				pluginData: {
-					source: compileSass(
-						await fs.readFile(getPath(args), "utf-8"),
-						options.sassOptions,
-					),
+					source: compileSass(getPath(args), options.sassOptions),
 				},
 			}));
 
 			build.onLoad({ filter: /\.scss$/ }, async (args) => ({
 				loader: "css",
-				contents: compileSass(
-					await fs.readFile(args.path, "utf-8"),
-					options.sassOptions,
-				),
+				contents: compileSass(args.path, options.sassOptions),
 				watchFiles: [args.path],
 			}));
 		},

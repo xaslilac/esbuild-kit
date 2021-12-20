@@ -21,6 +21,7 @@
 		"nova-storybook": "./target/nova-storybook.js"
 	},
 	"files": [
+		"static/**",
 		"target/**"
 	],
 	"dependencies": {
