@@ -72,8 +72,8 @@ if (!skipTsc) {
 console.log("[4/4] Preparing...");
 
 await fs.copyFile(
-	new URL("../static/css.d.ts", import.meta.url),
-	path.join(process.cwd(), "./target/css.d.ts"),
+	new URL("../static/main.css.d.ts", import.meta.url),
+	path.join(process.cwd(), "./target/main.css.d.ts"),
 );
 
 await fs.copyFile(
