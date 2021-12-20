@@ -1,6 +1,6 @@
 {
 	"name": "nova-build",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"author": "McKayla Washburn <mckayla@hey.com>",
 	"description": "Fast, opinionated build system for UI libraries",
 	"keywords": [
@@ -27,9 +27,9 @@
 	"dependencies": {
 		"@svgr/core": "^6.0.0",
 		"esbuild": "^0.14.6",
-		"sass": "^1.43.4",
-		"postcss": "^8.4.3",
+		"postcss": "^8.4.5",
 		"postcss-modules": "^4.2.2",
+		"sass": "^1.45.0",
 		"succulent": "^0.14.0"
 	},
 	"devDependencies": {
@@ -37,8 +37,8 @@
 		"@types/node": "^16.11.10",
 		"@types/sass": "^1.43.1",
 		"@types/svgo": "^2.6.0",
-		"jest": "^27.3.1",
-		"ts-jest": "^27.0.7"
+		"jest": "^27.4.5",
+		"ts-jest": "^27.1.2"
 	},
 	"scripts": {
 		"build": "tsc -p .",
