@@ -31,7 +31,7 @@ jobs:
             # - run: npm run test
 
             - run: npm run build -w @nova/ui
-            - run: npm run build-storybook -w @nova/ui
+            # - run: npm run build-storybook -w @nova/ui
             - run: npm run build -w @nova/next-test
             - run: npm run build -w @nova/vite-test
             - run: npm run build -w @nova/webpack-test
