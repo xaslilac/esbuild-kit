@@ -5,16 +5,7 @@ import sass from "sass";
 import { getPath } from "./util.js";
 
 function compileSass(source: string) {
-	return new Promise<string>((resolve, reject) =>
-		sass.render({ data: source }, (error, result) => {
-			if (error) {
-				reject(error);
-				return;
-			}
-
-			resolve(result.css.toString("utf-8"));
-		}),
-	);
+	return sass.compileString(source, {}).css;
 }
 
 export default {
@@ -27,13 +18,13 @@ export default {
 			path: getPath(args),
 			namespace: "css-module",
 			pluginData: {
-				source: await compileSass(await fs.readFile(getPath(args), "utf-8")),
+				source: compileSass(await fs.readFile(getPath(args), "utf-8")),
 			},
 		}));
 
 		build.onLoad({ filter: /\.scss$/ }, async (args) => ({
 			loader: "css",
-			contents: await compileSass(await fs.readFile(args.path, "utf-8")),
+			contents: compileSass(await fs.readFile(args.path, "utf-8")),
 		}));
 	},
 } as Plugin;

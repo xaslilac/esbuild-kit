@@ -42,7 +42,7 @@
 	"scripts": {
 		"build": "tsc -p .",
 		"dev": "tsc -p . -w --preserveWatchOutput",
-		"prepack": "npm run build",
+		"prepare": "npm run build",
 		"lint": "eslint .",
 		"test": "jest"
 	}
