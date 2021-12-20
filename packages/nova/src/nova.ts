@@ -2,53 +2,14 @@
 import { build, Plugin } from "esbuild";
 import * as fs from "fs/promises";
 import * as path from "path";
-import {
-	is,
-	$anyobject,
-	$array,
-	$boolean,
-	$maybe,
-	$object,
-	$string,
-	Schema,
-} from "succulent";
 
 import { run } from "./base/run.js";
+import { findConfig } from "./config.js";
 import cssModulesPlugin from "./plugins/cssModules.js";
 import externalsPlugin from "./plugins/externals.js";
+import perfPlugin from "./plugins/perf.js";
 import sassPlugin from "./plugins/sass.js";
 import svgrPlugin from "./plugins/svgr.js";
-
-const configSchema = $object({
-	export: $string,
-	features: $maybe(
-		$object({
-			svgr: $maybe($boolean),
-		}),
-	),
-	esbuildPlugins: $maybe($array($anyobject)),
-});
-
-async function findConfig(
-	configPath: string = process.cwd(),
-): Promise<Schema.Unwrap<typeof configSchema>> {
-	try {
-		const { default: config } = await import(path.join(configPath, "nova.config.js"));
-
-		if (!is(config, configSchema)) {
-			throw new Error("Failed to validate nova.config.js");
-		}
-
-		return config;
-	} catch (e) {
-		const nextConfigPath = path.join(configPath, "..");
-		if (nextConfigPath !== configPath) {
-			return findConfig(nextConfigPath);
-		}
-
-		throw new Error("Failed to resolve config");
-	}
-}
 
 const start = Date.now();
 
@@ -62,18 +23,25 @@ console.log(config);
 // console.time("- esbuild");
 console.log("[2/3] Bundling...");
 
+const {
+	export: entryPoint = "./src/main.ts",
+	jsx = "react",
+	outDir = "./target",
+} = config;
+
 await build({
-	entryPoints: ["./src/main.ts"],
+	entryPoints: [entryPoint],
 	bundle: true,
 	format: "esm",
-	// jsx: "preserve",
-	// outdir: "./.nova/esbuild/",
-	outdir: "./target/",
+	jsx: jsx === "react" ? "transform" : "preserve",
+	outdir: outDir,
+	watch: process.argv.includes("-w"),
 	plugins: [
-		cssModulesPlugin,
-		externalsPlugin,
-		sassPlugin,
-		config.features?.svgr && svgrPlugin,
+		cssModulesPlugin(),
+		externalsPlugin(),
+		perfPlugin(),
+		sassPlugin({ sassOptions: config.features?.sass ?? undefined }),
+		config.features?.svgr && svgrPlugin(),
 		config.esbuildPlugins,
 	]
 		.filter(Boolean)
@@ -82,19 +50,23 @@ await build({
 });
 // console.timeEnd("- esbuild");
 
-// console.time("- tsc");
-console.log("[3/3] Checking types...");
+const skipTsc = config.features?.tsc === false || process.argv.includes("--noCheck");
 
-await run("tsc", [
-	"-p",
-	".",
-	"--emitDeclarationOnly",
-	"--declarationMap",
-	"--declarationDir",
-	"./target",
-	"--rootDir",
-	"./src",
-]);
+// console.time("- tsc");
+console.log("[3/3] Checking types...", skipTsc ? "(skipping)" : "");
+
+if (!skipTsc) {
+	await run("tsc", [
+		"-p",
+		".",
+		"--emitDeclarationOnly",
+		"--declarationMap",
+		"--declarationDir",
+		outDir,
+		"--rootDir",
+		"./src",
+	]);
+}
 // console.timeEnd("- tsc");
 
 console.log("[4/4] Preparing...");
@@ -106,10 +78,10 @@ await fs.copyFile(
 
 await fs.copyFile(
 	new URL("../static/index.js", import.meta.url),
-	path.join(process.cwd(), "./target/index.js"),
+	path.join(process.cwd(), outDir, "./index.js"),
 );
 
-const end = Date.now();
-const duration = end - start;
-
-console.log(`🌺 Completed in ${(duration / 1000).toFixed(2)}s`);
+await fs.copyFile(
+	new URL("../static/nova.d.ts", import.meta.url),
+	path.join(process.cwd(), "./nova.d.ts"),
+);

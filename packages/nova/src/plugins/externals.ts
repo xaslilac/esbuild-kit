@@ -16,17 +16,18 @@ async function findExternals(externalsPath: string = process.cwd()): Promise<str
 	}
 }
 
-export default {
-	name: "@nova/esbuild-plugin-externals",
+export default () =>
+	({
+		name: "@nova/esbuild-plugin-externals",
 
-	setup: async (build) => {
-		if (!build.initialOptions.external) {
-			build.initialOptions.external = [];
-		}
+		setup: async (build) => {
+			if (!build.initialOptions.external) {
+				build.initialOptions.external = [];
+			}
 
-		build.initialOptions.external = [
-			...build.initialOptions.external,
-			...(await findExternals()),
-		];
-	},
-} as Plugin;
+			build.initialOptions.external = [
+				...build.initialOptions.external,
+				...(await findExternals()),
+			];
+		},
+	} as Plugin);
