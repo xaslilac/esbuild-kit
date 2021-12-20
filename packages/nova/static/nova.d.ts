@@ -1,2 +1,2 @@
 /* eslint-disable */
-/// <reference types="nova/@types/global" />
+/// <reference types="nova-build/@types/global" />

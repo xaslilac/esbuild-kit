@@ -19,7 +19,8 @@ declare module "*.scss" {
 }
 
 declare module "*.svg" {
-	export const ReactComponent: React.ComponentType;
+	type SvgProps = React.ComponentPropsWithoutRef<"svg">;
+	export const ReactComponent: React.ComponentType<SvgProps>;
 	const url: string;
 	export default url;
 }
