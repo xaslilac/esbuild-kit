@@ -6,6 +6,7 @@ import {
 	$boolean,
 	$maybe,
 	$object,
+	$optional,
 	$string,
 	Schema,
 	union,
@@ -13,7 +14,7 @@ import {
 
 const configSchema = $object({
 	export: $string,
-	outDir: $string,
+	outDir: $optional($string),
 
 	jsx: $maybe(union("react", "preserve")),
 
@@ -23,7 +24,6 @@ const configSchema = $object({
 			svgr: $maybe($boolean),
 			tsc: $maybe($boolean),
 		}),
-		
 	),
 	esbuildPlugins: $maybe($array($anyobject)),
 });
