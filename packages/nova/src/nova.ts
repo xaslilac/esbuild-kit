@@ -19,6 +19,7 @@ const {
 	export: entryPoint = "./src/main.ts",
 	jsx = "react",
 	outDir = "./target",
+	linkSourceMaps = true,
 } = config;
 
 const skipTsc = config.features?.tsc === false || process.argv.includes("--noCheck");
@@ -48,7 +49,7 @@ await build({
 	]
 		.filter(Boolean)
 		.flat(1) as Plugin[],
-	sourcemap: "external",
+	sourcemap: linkSourceMaps ? true : "external",
 });
 
 await fs.copyFile(

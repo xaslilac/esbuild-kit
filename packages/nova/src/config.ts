@@ -16,9 +16,10 @@ const configSchema = $object({
 	export: $string,
 	outDir: $optional($string),
 
-	jsx: $maybe(union("react", "preserve")),
+	jsx: $optional(union("react", "preserve")),
+	linkSourceMaps: $optional($boolean),
 
-	features: $maybe(
+	features: $optional(
 		$object({
 			sass: $maybe($anyobject),
 			svgr: $maybe($boolean),
