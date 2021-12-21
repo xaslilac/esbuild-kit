@@ -1,6 +1,8 @@
 import * as path from "path";
 import {
 	is,
+	Type,
+	union,
 	$anyobject,
 	$array,
 	$boolean,
@@ -8,8 +10,6 @@ import {
 	$object,
 	$optional,
 	$string,
-	Schema,
-	union,
 } from "succulent";
 
 const configSchema = $object({
@@ -18,6 +18,7 @@ const configSchema = $object({
 
 	jsx: $optional(union("react", "preserve")),
 	linkSourceMaps: $optional($boolean),
+	pure: $optional($boolean),
 
 	features: $optional(
 		$object({
@@ -31,7 +32,7 @@ const configSchema = $object({
 
 export async function findConfig(
 	configPath: string = process.cwd(),
-): Promise<Schema.Unwrap<typeof configSchema>> {
+): Promise<Type<typeof configSchema>> {
 	try {
 		const { default: config } = await import(path.join(configPath, "nova.config.js"));
 

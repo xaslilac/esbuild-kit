@@ -31,7 +31,7 @@
 		"postcss": "^8.4.5",
 		"postcss-modules": "^4.2.2",
 		"sass": "^1.45.0",
-		"succulent": "^0.14.0"
+		"succulent": "^0.14.1"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.0.3",

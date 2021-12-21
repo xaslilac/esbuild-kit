@@ -1,15 +1,19 @@
 {
 	"name": "@nova/ui",
-	"module": "./target/main.js",
-	"types": "./target/main.d.ts",
+	"module": "./target/index.js",
+	"types": "./target/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./target/main.js",
-			"types": "./target/main.d.ts"
+			"import": "./target/index.js",
+			"types": "./target/index.d.ts"
+		},
+		"./pure": {
+			"import": "./target/index.pure.js",
+			"types": "./target/index.d.ts"
 		},
 		"./css": {
-			"import": "./target/main.css",
-			"types": "./target/css.d.ts"
+			"import": "./target/index.css.js",
+			"types": "./target/index.css.d.ts"
 		}
 	},
 	"dependencies": {

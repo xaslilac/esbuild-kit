@@ -18,9 +18,11 @@ const config = await findConfig();
 
 const {
 	export: entryPoint = "./src/main.ts",
-	jsx = "react",
 	outDir = "./target",
+
+	jsx = "react",
 	linkSourceMaps = true,
+	pure,
 } = config;
 
 const skipTsc = config.features?.tsc === false || process.argv.includes("--noCheck");
@@ -55,11 +57,20 @@ await build({
 });
 
 fs.writeFile(
-	path.join(process.cwd(), outDir, "./index.js"),
-	(await fs.readFile(new URL("../static/index.js", import.meta.url)))
+	path.join(process.cwd(), outDir, pure ? "./index.js" : "./index.pure.js"),
+	(await fs.readFile(new URL("../static/index.pure.js", import.meta.url)))
 		.toString("utf-8")
 		.replaceAll("main", entryName(entryPoint)),
 );
+
+if (!pure) {
+	fs.writeFile(
+		path.join(process.cwd(), outDir, "./index.js"),
+		(await fs.readFile(new URL("../static/index.js", import.meta.url)))
+			.toString("utf-8")
+			.replaceAll("main", entryName(entryPoint)),
+	);
+}
 
 fs.writeFile(
 	path.join(process.cwd(), outDir, "./index.d.ts"),
@@ -68,15 +79,17 @@ fs.writeFile(
 		.replaceAll("main", entryName(entryPoint)),
 );
 
+fs.writeFile(
+	path.join(process.cwd(), outDir, "./index.css.js"),
+	(await fs.readFile(new URL("../static/index.css.js", import.meta.url)))
+		.toString("utf-8")
+		.replaceAll("main", entryName(entryPoint)),
+);
+
 await fs.copyFile(
 	new URL("../static/index.css.d.ts", import.meta.url),
 	path.join(process.cwd(), outDir, "/index.css.d.ts"),
 );
-
-// await fs.copyFile(
-// 	new URL("../static/index.js", import.meta.url),
-// 	path.join(process.cwd(), outDir, "./index.js"),
-// );
 
 if (!skipTsc) {
 	console.log("Checking types...");
