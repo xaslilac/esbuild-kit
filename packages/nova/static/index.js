@@ -1,2 +1,2 @@
-import "./main.css";
-export * from "./main";
+import "./build/main.css";
+export * from "./build/main";

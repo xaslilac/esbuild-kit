@@ -3,6 +3,7 @@ import { build, Plugin } from "esbuild";
 import * as fs from "fs/promises";
 import * as path from "path";
 
+import { entryName } from "./base/path.js";
 import { run } from "./base/run.js";
 import { findConfig } from "./config.js";
 import cssModulesPlugin from "./plugins/cssModules.js";
@@ -37,7 +38,8 @@ await build({
 	bundle: true,
 	format: "esm",
 	jsx: jsx === "react" ? "transform" : "preserve",
-	outdir: outDir,
+	outbase: "./src",
+	outdir: path.join(outDir, "./build"),
 	watch,
 	plugins: [
 		cssModulesPlugin(),
@@ -52,25 +54,41 @@ await build({
 	sourcemap: linkSourceMaps ? true : "external",
 });
 
-await fs.copyFile(
-	new URL("../static/main.css.d.ts", import.meta.url),
-	path.join(process.cwd(), "./target/main.css.d.ts"),
+fs.writeFile(
+	path.join(process.cwd(), outDir, "./index.js"),
+	(await fs.readFile(new URL("../static/index.js", import.meta.url)))
+		.toString("utf-8")
+		.replaceAll("main", entryName(entryPoint)),
+);
+
+fs.writeFile(
+	path.join(process.cwd(), outDir, "./index.d.ts"),
+	(await fs.readFile(new URL("../static/index.d.ts", import.meta.url)))
+		.toString("utf-8")
+		.replaceAll("main", entryName(entryPoint)),
 );
 
 await fs.copyFile(
-	new URL("../static/index.js", import.meta.url),
-	path.join(process.cwd(), outDir, "./index.js"),
+	new URL("../static/index.css.d.ts", import.meta.url),
+	path.join(process.cwd(), outDir, "/index.css.d.ts"),
 );
+
+// await fs.copyFile(
+// 	new URL("../static/index.js", import.meta.url),
+// 	path.join(process.cwd(), outDir, "./index.js"),
+// );
 
 if (!skipTsc) {
 	console.log("Checking types...");
-	run("tsc", [
+	// This await...kind of makes it a bad idea to put anything after this
+	// (particularly when watch mode is involved)
+	await run("tsc", [
 		"-p",
 		".",
 		"--emitDeclarationOnly",
 		"--declarationMap",
 		"--declarationDir",
-		outDir,
+		path.join(outDir, "./types"),
 		"--rootDir",
 		"./src",
 		watch && ["-w", "--preserveWatchOutput"],
