@@ -1,5 +1,7 @@
 # NOVA
 
+[![main](https://github.com/aslilac/nova/actions/workflows/main.yml/badge.svg)](https://github.com/aslilac/nova/actions/workflows/main.yml)
+
 Nova is a build system for UI libraries for the web.
 
 -   Fast.
