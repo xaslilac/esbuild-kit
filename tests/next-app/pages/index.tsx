@@ -1,5 +1,4 @@
 import { Row } from "@nova/ui";
-// import "@nova/ui/css";
 
 export default () => {
 	return (
