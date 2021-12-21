@@ -56,12 +56,14 @@ await build({
 	sourcemap: linkSourceMaps ? true : "external",
 });
 
-fs.writeFile(
-	path.join(process.cwd(), outDir, pure ? "./index.js" : "./index.pure.js"),
-	(await fs.readFile(new URL("../static/index.pure.js", import.meta.url)))
-		.toString("utf-8")
-		.replaceAll("main", entryName(entryPoint)),
-);
+if (pure) {
+	fs.writeFile(
+		path.join(process.cwd(), outDir, "./index.js"),
+		(await fs.readFile(new URL("../static/index.pure.js", import.meta.url)))
+			.toString("utf-8")
+			.replaceAll("main", entryName(entryPoint)),
+	);
+}
 
 if (!pure) {
 	fs.writeFile(
