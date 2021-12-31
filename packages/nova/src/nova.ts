@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { build, Plugin } from "esbuild";
+import { build, type Plugin } from "esbuild";
 import * as fs from "fs/promises";
 import * as path from "path";
 
