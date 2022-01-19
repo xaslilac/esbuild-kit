@@ -38,6 +38,7 @@ console.log("Bundling...");
 await build({
 	entryPoints: [entryPoint],
 	bundle: true,
+	ignoreAnnotations: true,
 	format: "esm",
 	jsx: jsx === "react" ? "transform" : "preserve",
 	outbase: "./src",
