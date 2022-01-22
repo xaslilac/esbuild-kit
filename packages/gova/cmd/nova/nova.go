@@ -26,12 +26,10 @@ func main() {
 
 	fmt.Println("Options:", options)
 
-	// var watchMode *esbuild.WatchMode = nil
-	// if options.Watch {
-	// 	watchMode = &esbuild.WatchMode{OnRebuild: alert}
-	// }
-
-	var watchMode *esbuild.WatchMode = &esbuild.WatchMode{OnRebuild: alert}
+	var watchMode *esbuild.WatchMode = nil
+	if options.Watch {
+		watchMode = &esbuild.WatchMode{OnRebuild: alert}
+	}
 
 	fmt.Println(watchMode)
 
@@ -48,5 +46,9 @@ func main() {
 
 	if len(result.Errors) > 0 {
 		fmt.Println("err")
+	}
+
+	if options.Watch {
+		<-make(chan bool)
 	}
 }
