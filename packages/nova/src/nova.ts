@@ -17,7 +17,7 @@ const startTime = Date.now();
 const config = await findConfig();
 
 const {
-	export: entryPoint = "./src/main.ts",
+	export: entryPoint = "./src/index.ts",
 	outDir = "./build/",
 
 	jsx = "react",

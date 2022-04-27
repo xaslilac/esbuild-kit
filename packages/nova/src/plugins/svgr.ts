@@ -2,9 +2,9 @@ import type { Plugin } from "esbuild";
 import * as fs from "fs/promises";
 
 export default () =>
-({
-	name: "esbuilt-kit/esbuild-plugin-svgr",
-	setup: (build) => {
+	({
+		name: "esbuilt-kit/esbuild-plugin-svgr",
+		setup: (build) => {
 			const svgrImport = import("@svgr/core");
 
 			build.onLoad({ filter: /\.svg$/ }, async (args) => {

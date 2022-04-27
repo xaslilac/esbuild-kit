@@ -23,12 +23,15 @@ jobs:
                   node-version: ${{ matrix.node-version }}
 
             - run: npm i
-            - run: npx prettier --check .
 
-            - run: npm run build -w nova-build
-            - run: npm run lint -w nova-build
+            - run: npx prettier --check .
+              if: ${{ matrix.node-version == '18.x' }}
+            - run: npm run lint -w esbuild-kit
+              if: ${{ matrix.node-version == '18.x' }}
               continue-on-error: true
-            - run: npm run test
+
+            - run: npm run build -w esbuild-kit
+            - run: npm run test -w esbuild-kit
               continue-on-error: true
 
     integration:

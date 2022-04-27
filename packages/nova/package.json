@@ -20,7 +20,7 @@
 		}
 	},
 	"bin": {
-		"ek": "./build/ek.js"
+		"nova": "./build/nova.js"
 	},
 	"files": [
 		"@types/**",
