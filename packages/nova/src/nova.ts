@@ -3,14 +3,14 @@ import { build, type Plugin } from "esbuild";
 import * as fs from "fs/promises";
 import * as path from "path";
 
-import { entryName } from "./base/path.js";
-import { run } from "./base/run.js";
-import { findConfig } from "./config.js";
-import cssModulesPlugin from "./plugins/cssModules.js";
-import externalsPlugin from "./plugins/externals.js";
-import perfPlugin from "./plugins/perf.js";
-import sassPlugin from "./plugins/sass.js";
-import svgrPlugin from "./plugins/svgr.js";
+import { entryName, findConfig, run } from "./base/index.js";
+import {
+	cssModulesPlugin,
+	externalsPlugin,
+	perfPlugin,
+	sassPlugin,
+	svgrPlugin,
+} from "./plugins/index.js";
 
 const startTime = Date.now();
 
@@ -18,7 +18,7 @@ const config = await findConfig();
 
 const {
 	export: entryPoint = "./src/main.ts",
-	outDir = "./target",
+	outDir = "./build/",
 
 	jsx = "react",
 	linkSourceMaps = true,
@@ -30,8 +30,8 @@ const watch = process.argv.includes("-w");
 
 // Needs to be in place early for type checking
 await fs.copyFile(
-	new URL("../static/nova.d.ts", import.meta.url),
-	path.join(process.cwd(), "./nova.d.ts"),
+	new URL("../static/modules.d.ts", import.meta.url),
+	path.join(process.cwd(), "./modules.d.ts"),
 );
 
 console.log("Bundling...");
@@ -41,8 +41,8 @@ await build({
 	ignoreAnnotations: true,
 	format: "esm",
 	jsx: jsx === "react" ? "transform" : "preserve",
-	outbase: "./src",
-	outdir: path.join(outDir, "./build"),
+	outbase: "./src/",
+	outdir: path.join(outDir, "./dist/"),
 	watch,
 	plugins: [
 		cssModulesPlugin(),
@@ -104,9 +104,9 @@ if (!skipTsc) {
 		"--emitDeclarationOnly",
 		"--declarationMap",
 		"--declarationDir",
-		path.join(outDir, "./types"),
+		path.join(outDir, "./types/"),
 		"--rootDir",
-		"./src",
+		"./src/",
 		watch && ["-w", "--preserveWatchOutput"],
 	]);
 }
@@ -115,5 +115,5 @@ const endTime = Date.now();
 const duration = endTime - startTime!;
 
 if (!watch) {
-	console.log(`🌺 Completed in ${(duration / 1000).toFixed(2)}s`);
+	console.log(`esbuild-kit: ${(duration / 1000).toFixed(2)}s`);
 }

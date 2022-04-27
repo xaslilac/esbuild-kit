@@ -1,29 +1,31 @@
 {
-	"name": "nova-build",
-	"version": "0.3.8",
+	"name": "esbuild-kit",
+	"version": "0.0.2",
 	"author": "McKayla Washburn <mckayla@hey.com>",
-	"description": "Fast, opinionated build system for UI libraries",
+	"description": "Thin wrapper around ESBuild, with sane defaults",
 	"keywords": [
 		"esbuild"
 	],
 	"license": "MIT",
-	"homepage": "https://github.com/aslilac/nova",
-	"repository": "https://github.com/aslilac/nova",
-	"bugs": "https://github.com/aslilac/nova/issues",
+	"homepage": "https://github.com/aslilac/esbuild-kit",
+	"repository": "https://github.com/aslilac/esbuild-kit",
+	"bugs": "https://github.com/aslilac/esbuild-kit/issues",
 	"type": "module",
 	"exports": {
-		"./@types/global": {
-			"types": "./@types/global.d.ts"
+		".": {
+			"import": "./build/esbuild-kit.js"
+		},
+		"./@types/modules": {
+			"types": "./@types/modules.d.ts"
 		}
 	},
 	"bin": {
-		"nova": "./target/nova.js",
-		"nova-storybook": "./target/nova-storybook.js"
+		"ek": "./build/ek.js"
 	},
 	"files": [
 		"@types/**",
-		"static/**",
-		"target/**"
+		"build/**",
+		"static/**"
 	],
 	"dependencies": {
 		"@svgr/core": "^6.0.0",
@@ -31,7 +33,7 @@
 		"postcss": "^8.4.5",
 		"postcss-modules": "^4.2.2",
 		"sass": "^1.45.0",
-		"succulent": "^0.14.1"
+		"succulent": "^0.15.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.0.3",
@@ -42,8 +44,8 @@
 		"ts-jest": "^27.1.2"
 	},
 	"scripts": {
-		"build": "tsc -p .",
-		"dev": "tsc -p . -w --preserveWatchOutput",
+		"build": "tsc -b .",
+		"dev": "tsc -b . -w",
 		"prepare": "npm run build",
 		"lint": "eslint .",
 		"test": "jest"

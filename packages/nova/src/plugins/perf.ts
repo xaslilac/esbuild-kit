@@ -14,7 +14,7 @@ export default () =>
 				const endTime = Date.now();
 				const duration = endTime - startTime!;
 
-				console.log(`🌺 Completed in ${(duration / 1000).toFixed(2)}s`);
+				console.log(`  esbuild: ${(duration / 1000).toFixed(2)}s`);
 			});
 		},
 	} as Plugin);

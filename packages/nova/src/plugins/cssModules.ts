@@ -1,14 +1,15 @@
 import type { Plugin } from "esbuild";
 import * as fs from "fs/promises";
-import postcss from "postcss";
-import postcssModules from "postcss-modules";
 
 import { getPath } from "./util.js";
 
 /**
  * Allows us to get the JSON map and the resulting CSS together, given an input string.
  */
-export function transformCssModules(inputCss: string): Promise<[string, string]> {
+export async function transformCssModules(inputCss: string): Promise<[string, string]> {
+	const { default: postcss } = await import("postcss");
+	const { default: postcssModules } = await import("postcss-modules");
+
 	return new Promise<[string, string]>((resolveOutputCss) => {
 		const jsonPromise = new Promise<string>(async (resolveJson) => {
 			const compiler = postcss([
@@ -29,7 +30,7 @@ export function transformCssModules(inputCss: string): Promise<[string, string]>
 
 export default () =>
 	({
-		name: "@nova/esbuild-plugin-css-modules",
+		name: "esbuild-kit/esbuild-plugin-css-modules",
 
 		setup: (build) => {
 			const cache = new Map<string, string>();

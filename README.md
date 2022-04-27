@@ -1,6 +1,4 @@
-<h1 align="center"><img alt="Nova" src="media/nova.svg" height="200" /></h1>
-
-[![version](https://mckayla.dev/badge/v/nova-build/e57599)](https://npmjs.org/package/nova-build)
+# esbuild-kit
 
 Nova is a fast system for UI libraries for the web.
 

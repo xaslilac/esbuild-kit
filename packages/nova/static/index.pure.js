@@ -1,1 +1,1 @@
-export * from "./build/main";
+export * from "./dist/main";

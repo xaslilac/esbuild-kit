@@ -1,9 +1,7 @@
 {
 	"extends": "@mckayla/tsconfig",
 	"compilerOptions": {
-		"outDir": "./target",
-		"sourceMap": true,
-		"baseUrl": "."
+		"outDir": "./build/"
 	},
-	"include": ["./@types/**/*.d.ts", "./src/**/*"]
+	"include": ["./src/**/*"]
 }

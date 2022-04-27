@@ -1,2 +1,2 @@
-import "./build/main.css";
-export * from "./build/main";
+import "./dist/main.css";
+export * from "./dist/main";

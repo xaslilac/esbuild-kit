@@ -1,1 +1,1 @@
-import "./build/main.css";
+import "./dist/main.css";
