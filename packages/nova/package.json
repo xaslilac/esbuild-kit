@@ -1,6 +1,6 @@
 {
 	"name": "esbuild-kit",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": "McKayla Washburn <mckayla@hey.com>",
 	"description": "Thin wrapper around ESBuild, with sane defaults",
 	"keywords": [
