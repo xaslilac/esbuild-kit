@@ -1,6 +1,6 @@
 {
 	"name": "esbuild-kit",
-	"version": "0.0.3",
+	"version": "0.5.0",
 	"author": "McKayla Washburn <mckayla@hey.com>",
 	"description": "Thin wrapper around ESBuild, with sane defaults",
 	"keywords": [
@@ -20,7 +20,7 @@
 		}
 	},
 	"bin": {
-		"nova": "./build/nova.js"
+		"build": "./build/build.js"
 	},
 	"files": [
 		"@types/**",
@@ -29,11 +29,11 @@
 	],
 	"dependencies": {
 		"@svgr/core": "^6.0.0",
-		"esbuild": "^0.14.6",
+		"esbuild": "^0.14.38",
 		"postcss": "^8.4.5",
 		"postcss-modules": "^4.2.2",
-		"sass": "^1.45.0",
-		"succulent": "^0.15.0"
+		"sass": "^1.51.0",
+		"succulent": "^0.16.1"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.0.3",

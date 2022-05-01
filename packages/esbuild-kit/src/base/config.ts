@@ -1,6 +1,6 @@
 import * as path from "path";
 import {
-	is,
+	check,
 	Type,
 	union,
 	$anyobject,
@@ -12,8 +12,9 @@ import {
 	$string,
 } from "succulent";
 
-const configSchema = $object({
-	export: $string,
+interface Config extends Type<typeof $Config> {}
+const $Config = $object({
+	entryPoint: $string,
 	outDir: $optional($string),
 
 	jsx: $optional(union("react", "preserve")),
@@ -30,17 +31,15 @@ const configSchema = $object({
 	esbuildPlugins: $maybe($array($anyobject)),
 });
 
-export async function findConfig(
-	configPath: string = process.cwd(),
-): Promise<Type<typeof configSchema>> {
+export async function findConfig(configPath: string = process.cwd()): Promise<Config> {
 	try {
-		const { default: config } = await import(path.join(configPath, "nova.config.js"));
+		// really wish you'd just shut the fuck up sometimes
+		// eslint-disable-next-line
+		const { default: config } = await import(
+			path.join(configPath, "build.config.js")
+		);
 
-		if (!is(config, configSchema)) {
-			throw new Error("Failed to validate nova.config.js");
-		}
-
-		return config;
+		return check(config, $Config);
 	} catch (cause) {
 		// @ts-expect-error - TypeScript doesn't have types for cause yet
 		throw new Error("Failed to resolve config", { cause });

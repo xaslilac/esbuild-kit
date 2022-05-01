@@ -14,7 +14,7 @@ export default (options: SassPluginOptions = {}) =>
 			const sassImport = import("sass");
 
 			async function compileSass(path: string, options: SassCompileOptions = {}) {
-				const sass = await sassImport;
+				const { default: sass } = await sassImport;
 				return sass.compile(path, options).css;
 			}
 

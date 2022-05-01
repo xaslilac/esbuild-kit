@@ -6,5 +6,5 @@
 			"^/*": ["./src/*"]
 		}
 	},
-	"include": ["./nova.d.ts", "./src/**/*"]
+	"include": ["./build.d.ts", "./src/**/*"]
 }

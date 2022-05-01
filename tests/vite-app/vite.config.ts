@@ -4,8 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default {
 	plugins: [tsconfigPaths({ root: ".." })],
 
-	root: "./src",
-	publicDir: "../public",
+	root: "./src/",
 
 	define: {
 		__DEV__: JSON.stringify(process.env["NODE_ENV"] === "production"),
@@ -16,6 +15,6 @@ export default {
 	},
 
 	build: {
-		outDir: "../target",
+		outDir: "../build/",
 	},
 } as UserConfig;

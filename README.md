@@ -8,7 +8,7 @@ Provides everything you need to build your project with ESBuild.
 
 ```javascript
 // build.mjs
-import b from "esbuilt-kit";
+import b from "esbuild-kit";
 
 b({
 	entryPoint: "./src/index.js",

@@ -16,7 +16,7 @@ module.exports = {
 
 	entry: path.join(__dirname, "./src/main.tsx"),
 
-	output: { path: path.join(__dirname, "./target") },
+	output: { path: path.join(__dirname, "./build/") },
 
 	infrastructureLogging: {
 		level: "warn",
@@ -36,7 +36,7 @@ module.exports = {
 		extensions: [".js", ".cjs", ".mjs", ".ts", ".tsx"],
 
 		alias: {
-			"^": path.join(__dirname, "./src"),
+			"^/": path.join(__dirname, "./src/"),
 		},
 	},
 

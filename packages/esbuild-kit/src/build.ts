@@ -12,12 +12,10 @@ import {
 	svgrPlugin,
 } from "./plugins/index.js";
 
-const startTime = Date.now();
-
 const config = await findConfig();
 
 const {
-	export: entryPoint = "./src/index.ts",
+	entryPoint = "./src/index.ts",
 	outDir = "./build/",
 
 	jsx = "react",
@@ -30,8 +28,8 @@ const watch = process.argv.includes("-w");
 
 // Needs to be in place early for type checking
 await fs.copyFile(
-	new URL("../static/modules.d.ts", import.meta.url),
-	path.join(process.cwd(), "./modules.d.ts"),
+	new URL("../static/build.d.ts", import.meta.url),
+	path.join(process.cwd(), "./build.d.ts"),
 );
 
 console.log("Bundling...");
@@ -57,41 +55,34 @@ await build({
 	sourcemap: linkSourceMaps ? true : "external",
 });
 
-if (pure) {
-	fs.writeFile(
-		path.join(process.cwd(), outDir, "./index.js"),
-		(await fs.readFile(new URL("../static/index.pure.js", import.meta.url)))
-			.toString("utf-8")
-			.replaceAll("main", entryName(entryPoint)),
-	);
-}
-
-if (!pure) {
-	fs.writeFile(
-		path.join(process.cwd(), outDir, "./index.js"),
-		(await fs.readFile(new URL("../static/index.js", import.meta.url)))
-			.toString("utf-8")
-			.replaceAll("main", entryName(entryPoint)),
-	);
-}
-
-fs.writeFile(
-	path.join(process.cwd(), outDir, "./index.d.ts"),
-	(await fs.readFile(new URL("../static/index.d.ts", import.meta.url)))
+void fs.writeFile(
+	path.join(process.cwd(), outDir, "./index.js"),
+	// When `pure`, the default entry point should only include JavaScript.
+	// When not, it should include JavaScript and CSS
+	(await fs.readFile(new URL(`../static/${pure ? "js" : "index"}.js`, import.meta.url)))
 		.toString("utf-8")
-		.replaceAll("main", entryName(entryPoint)),
+		.replaceAll("index", entryName(entryPoint)),
 );
 
-fs.writeFile(
-	path.join(process.cwd(), outDir, "./index.css.js"),
-	(await fs.readFile(new URL("../static/index.css.js", import.meta.url)))
+void fs.writeFile(
+	path.join(process.cwd(), outDir, "./index.d.ts"),
+	// When `pure`, the default entry point should only include JavaScript.
+	// When not, it should include JavaScript and CSS
+	(await fs.readFile(new URL(`../static/index.d.ts`, import.meta.url)))
 		.toString("utf-8")
-		.replaceAll("main", entryName(entryPoint)),
+		.replaceAll("index", entryName(entryPoint)),
+);
+
+void fs.writeFile(
+	path.join(process.cwd(), outDir, "./css.js"),
+	(await fs.readFile(new URL("../static/css.js", import.meta.url)))
+		.toString("utf-8")
+		.replaceAll("index", entryName(entryPoint)),
 );
 
 await fs.copyFile(
-	new URL("../static/index.css.d.ts", import.meta.url),
-	path.join(process.cwd(), outDir, "/index.css.d.ts"),
+	new URL("../static/css.d.ts", import.meta.url),
+	path.join(process.cwd(), outDir, "/css.d.ts"),
 );
 
 if (!skipTsc) {
@@ -109,11 +100,4 @@ if (!skipTsc) {
 		"./src/",
 		watch && ["-w", "--preserveWatchOutput"],
 	]);
-}
-
-const endTime = Date.now();
-const duration = endTime - startTime!;
-
-if (!watch) {
-	console.log(`esbuild-kit: ${(duration / 1000).toFixed(2)}s`);
 }

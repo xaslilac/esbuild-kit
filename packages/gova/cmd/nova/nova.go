@@ -39,7 +39,7 @@ func main() {
 		Format:      esbuild.FormatESModule,
 		JSXMode:     esbuild.JSXModePreserve,
 		Outbase:     "./",
-		Outdir:      "./target/",
+		Outdir:      "./build/",
 		Watch:       watchMode,
 		Write:       true,
 	})

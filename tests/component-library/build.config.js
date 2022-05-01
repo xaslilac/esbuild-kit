@@ -1,7 +1,8 @@
 const path = require("path");
 
 module.exports = {
-	export: "./src/main.ts",
+	entryPoint: "./src/index.ts",
+	pure: true,
 	features: {
 		svgr: true,
 		sass: {

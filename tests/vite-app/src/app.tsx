@@ -1,6 +1,5 @@
+import "@nova/ui/css";
 import { Row } from "@nova/ui";
-import { hi } from "@nova/ui/css";
-
 import React from "react";
 import { render } from "react-dom";
 

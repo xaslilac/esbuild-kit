@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import { transformCssModules } from "./cssModules";
 
 // The only reason these tests don't pass is because `transformCssModules`
@@ -5,8 +6,8 @@ import { transformCssModules } from "./cssModules";
 // but fixing that would be nice for testability.
 xtest("transformCssModules", async () => {
 	const exampleCss = `
+	color: red;
 		.hey {
-			color: red;
 		}
 	`;
 
