@@ -1,4 +1,8 @@
-<h1 align="center"><img alt="esbuild-kit" src="media/logo.webp" height="200" /><br />esbuild-kit</h1>
+<h1 align="center">
+<img alt="esbuild-kit" src="https://cdn.mckayla.cloud/-/760de563e75a4129b29564d2729597be/blue.webp" height="200" />
+<br />
+esbuild-kit
+</h1>
 
 Provides everything you need to build your project with ESBuild.
 
